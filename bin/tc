@@ -1,0 +1,55 @@
+#!/bin/bash
+
+EXIT_CODE=0
+
+if [ -z $TC_DIR ] 
+then
+   TC_DIR=`dirname $0`/../
+fi
+
+if [ -z $JAVA_MEM_FLAG ] 
+then
+    JAVA_MEM_FLAG=-Xmx4g
+fi
+
+
+
+MANAGED_JARS="`find $TC_DIR/lib_managed -name '*.jar' -print | tr '\n' ':'`"
+UNMANAGED_JARS="`find $TC_DIR/lib -name '*.jar' -print | tr '\n' ':'`"
+
+SCALA_LIB="$HOME/.sbt/boot/scala-2.10.3/lib/scala-library.jar"
+
+CP="$TC_DIR/target/classes:$SCALA_LIB:$TC_DIR/src/main/resources:$MANAGED_JARS:$UNMANAGED_JARS"
+
+JAVA="$JAVA_HOME/bin/java"
+JAVA_COMMAND="$JAVA -Xmx4000M -classpath $CP -Dgpp.dir=$TC_DIR"
+
+CMD=$1
+shift
+
+help()
+{
+cat <<EOF
+tc 0.1 commands: 
+
+  run              run the main method of a given class
+
+Include --help with any option for more information
+EOF
+}
+
+CLASS=
+
+case $CMD in
+	run) CLASS=$1;shift;;
+	classify) CLASS=thesiscode.classify.UserClassify;;
+	baseline) CLASS=thesiscode.classify.BaselineClassify;;
+    help) help; exit 1;;
+    *) echo "Unrecognized command: $CMD"; help; exit 1;;
+esac
+
+$JAVA_COMMAND $CLASS ${1+"$@"} 
+(( EXIT_CODE += $? ))
+
+exit $EXIT_CODE
+

@@ -1,0 +1,14 @@
+lib_managed/
+target/
+lucene/
+.project
+.classpath
+.cache
+.ensime*
+*~
+twitter4j.properties
+src/main/resources/LIWC2007_English100131.dic
+data/
+junk/
+savedClassifiers/
+*.DS_Store
