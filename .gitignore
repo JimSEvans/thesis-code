@@ -8,7 +8,13 @@ lucene/
 *~
 twitter4j.properties
 src/main/resources/LIWC2007_English100131.dic
-data/
+data/*
+!data/corpusJSON/dataSplitsDir/*
+!data/twitterUsers/mainList.txt
+!data/twitterUsers/listBasedList.txt
+!data/twitterUsers/oldList.txt
 junk/
-savedClassifiers/
+savedClassifiers/*
+!savedClassifiers/.gitkeep
 *.DS_Store
+misclassified.txt
